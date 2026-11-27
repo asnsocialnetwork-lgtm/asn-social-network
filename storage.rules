@@ -1,0 +1,139 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Global safety net: deny all reads and writes by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidImageUpload() {
+      return request.resource != null
+        && request.resource.size > 0
+        && request.resource.size <= 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|jpg|png|webp|gif)');
+    }
+
+    function isValidVideoUpload() {
+      return request.resource != null
+        && request.resource.size > 0
+        && request.resource.size <= 250 * 1024 * 1024
+        && request.resource.contentType.matches('video/(mp4|mp4v-es|webm|quicktime|x-m4v)');
+    }
+
+    // Profile pictures: users/{userId}/profile/{fileName}
+    match /users/{userId}/profile/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Cover photos: users/{userId}/cover/{fileName}
+    match /users/{userId}/cover/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Post images: users/{userId}/posts/{fileName}
+    match /users/{userId}/posts/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Page images: users/{userId}/pages/{fileName}
+    match /users/{userId}/pages/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Group cover images: users/{userId}/groups/{fileName}
+    match /users/{userId}/groups/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Story images & videos: users/{userId}/story_photos/{fileName} and users/{userId}/story_videos/{fileName}
+    match /users/{userId}/story_photos/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/story_videos/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidVideoUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Event & Marketplace images
+    match /users/{userId}/events/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/marketplace/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Post videos & Reels: users/{userId}/videos/{fileName} and users/{userId}/reels/{fileName}
+    match /users/{userId}/videos/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidVideoUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/reels/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidVideoUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Video thumbnails: users/{userId}/thumbnails/{fileName}
+    match /users/{userId}/thumbnails/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    // Advertisement images & videos: users/{userId}/ads/{fileName} and users/{userId}/ad_videos/{fileName}
+    match /users/{userId}/ads/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidImageUpload();
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/ad_videos/{fileName} {
+      allow get: if isSignedIn();
+      allow list: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidVideoUpload();
+      allow delete: if isOwner(userId);
+    }
+  }
+}

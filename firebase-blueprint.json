@@ -1,0 +1,1005 @@
+{
+  "entities": {
+    "UserPublic": {
+      "title": "UserPublic",
+      "description": "Publicly visible user profile information without PII.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 2, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "bio": { "type": "string", "maxLength": 280 },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "coverURL": { "type": "string", "maxLength": 2048 },
+        "location": { "type": "string", "maxLength": 80 },
+        "website": { "type": "string", "maxLength": 200 },
+        "work": { "type": "string", "maxLength": 100 },
+        "education": { "type": "string", "maxLength": 100 },
+        "hometown": { "type": "string", "maxLength": 80 },
+        "relationshipStatus": { "type": "string", "maxLength": 40 },
+        "followersCount": { "type": "integer" },
+        "followingCount": { "type": "integer" },
+        "friendsCount": { "type": "integer" },
+        "postsCount": { "type": "integer" },
+        "isVerifiedCreator": { "type": "boolean" },
+        "monetizationStatus": { "type": "string", "enum": ["none", "pending", "approved", "rejected"] },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended", "deactivated", "deleted"] },
+        "profileVisibility": { "type": "string", "enum": ["public", "friends"] },
+        "defaultPostVisibility": { "type": "string", "enum": ["public", "friends", "only_me"] },
+        "defaultReelVisibility": { "type": "string", "enum": ["public", "friends"] },
+        "allowMessagesFrom": { "type": "string", "enum": ["everyone", "friends"] },
+        "allowFriendRequestsFrom": { "type": "string", "enum": ["everyone", "friends_of_friends"] },
+        "allowCommentsFrom": { "type": "string", "enum": ["everyone", "friends"] },
+        "allowTagging": { "type": "string", "enum": ["everyone", "friends", "none"] },
+        "showConnections": { "type": "boolean" },
+        "showOnlineStatus": { "type": "boolean" },
+        "allowSearchDiscovery": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "username", "bio", "photoURL", "coverURL", "location", "website", "followersCount", "followingCount", "postsCount", "isVerifiedCreator", "monetizationStatus", "accountStatus", "createdAt", "updatedAt"]
+    },
+    "BlockedUser": {
+      "title": "BlockedUser",
+      "description": "Blocked user record isolated inside the blocker's private subcollection.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "username", "photoURL", "createdAt"]
+    },
+    "UserPrivate": {
+      "title": "UserPrivate",
+      "description": "Private PII and verified creator earnings ledger isolated to owner and admin.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "maxLength": 254 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "firstName": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "lastName": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "gender": { "type": "string", "enum": ["male", "female"] },
+        "birthDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "verifiedContactType": { "type": "string", "enum": ["email", "phone"] },
+        "birthYear": { "type": "string", "maxLength": 10 },
+        "payoutMethodNote": { "type": "string", "maxLength": 160 },
+        "twoFactorEnabled": { "type": "boolean" },
+        "loginAlerts": { "type": "boolean" },
+        "autoplayMedia": { "type": "boolean" },
+        "dataSaverMode": { "type": "boolean" },
+        "notifLikes": { "type": "boolean" },
+        "notifComments": { "type": "boolean" },
+        "notifFriends": { "type": "boolean" },
+        "notifMessages": { "type": "boolean" },
+        "notifPagesGroups": { "type": "boolean" },
+        "adPersonalization": { "type": "boolean" },
+        "totalEarningsCents": { "type": "integer" },
+        "pendingPayoutCents": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "phone", "birthYear", "payoutMethodNote", "totalEarningsCents", "pendingPayoutCents", "updatedAt"]
+    },
+    "FollowEdge": {
+      "title": "FollowEdge",
+      "description": "Directional follow or friendship relationship document.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "username", "photoURL", "createdAt"]
+    },
+    "PageFollowEdge": {
+      "title": "PageFollowEdge",
+      "description": "Directional user-to-page follow relationship stored under a user's following_pages subcollection.",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "handle": { "type": "string", "minLength": 3, "maxLength": 30, "pattern": "^[a-z0-9_]+$" },
+        "avatarURL": { "type": "string", "maxLength": 2048 },
+        "category": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "name", "handle", "avatarURL", "category", "createdAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Feed, page, or group post with media metadata and counters.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "authorName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "authorUsername": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "authorPhotoURL": { "type": "string", "maxLength": 2048 },
+        "authorIsVerified": { "type": "boolean" },
+        "content": { "type": "string", "maxLength": 2000 },
+        "mediaType": { "type": "string", "enum": ["none", "image", "video"] },
+        "mediaURL": { "type": "string", "maxLength": 350000 },
+        "mediaPath": { "type": "string", "maxLength": 512 },
+        "mediaURLs": { "type": "array" },
+        "thumbnailURL": { "type": "string", "maxLength": 350000 },
+        "thumbnailPath": { "type": "string", "maxLength": 512 },
+        "hashtags": { "type": "array" },
+        "contextType": { "type": "string", "enum": ["feed", "page", "group"] },
+        "contextId": { "type": "string", "maxLength": 128 },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "sharesCount": { "type": "integer" },
+        "viewsCount": { "type": "integer" },
+        "adminLikesOffset": { "type": "integer" },
+        "adminCommentsOffset": { "type": "integer" },
+        "adminSharesOffset": { "type": "integer" },
+        "adminViewsOffset": { "type": "integer" },
+        "engagementDisabled": { "type": "boolean" },
+        "engagementLimit": { "type": "integer" },
+        "isBoosted": { "type": "boolean" },
+        "activeBoostId": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["active", "removed", "scheduled"] },
+        "scheduledAt": { "type": "string", "format": "date-time" },
+        "visibility": { "type": "string", "enum": ["public", "friends", "only_me"] },
+        "feeling": { "type": "string", "maxLength": 60 },
+        "locationTag": { "type": "string", "maxLength": 100 },
+        "bgStyle": { "type": "string", "maxLength": 32 },
+        "isPinned": { "type": "boolean" },
+        "taggedUsers": { "type": "array" },
+        "pollQuestion": { "type": "string", "maxLength": 200 },
+        "pollOptions": { "type": "array" },
+        "reactionCounts": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "authorUsername", "authorPhotoURL", "content", "mediaType", "mediaURL", "contextType", "contextId", "likesCount", "commentsCount", "sharesCount", "viewsCount", "status", "createdAt", "updatedAt"]
+    },
+    "Reel": {
+      "title": "Reel",
+      "description": "Short-form vertical video reel with creator attribution and engagement counters.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "authorName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "authorUsername": { "type": "string", "minLength": 3, "maxLength": 30, "pattern": "^[a-z0-9_]+$" },
+        "authorPhotoURL": { "type": "string", "maxLength": 2048 },
+        "caption": { "type": "string", "maxLength": 600 },
+        "hashtags": { "type": "array" },
+        "videoURL": { "type": "string", "maxLength": 2048 },
+        "videoPath": { "type": "string", "maxLength": 512 },
+        "posterURL": { "type": "string", "maxLength": 2048 },
+        "posterPath": { "type": "string", "maxLength": 512 },
+        "contextType": { "type": "string", "enum": ["feed", "page"] },
+        "contextId": { "type": "string", "maxLength": 128 },
+        "visibility": { "type": "string", "enum": ["public", "friends"] },
+        "reactionCounts": { "type": "object" },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "sharesCount": { "type": "integer" },
+        "viewsCount": { "type": "integer" },
+        "adminLikesOffset": { "type": "integer" },
+        "adminCommentsOffset": { "type": "integer" },
+        "adminSharesOffset": { "type": "integer" },
+        "adminViewsOffset": { "type": "integer" },
+        "engagementDisabled": { "type": "boolean" },
+        "engagementLimit": { "type": "integer" },
+        "isBoosted": { "type": "boolean" },
+        "activeBoostId": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["active", "removed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "authorUsername", "authorPhotoURL", "caption", "videoURL", "posterURL", "visibility", "likesCount", "commentsCount", "sharesCount", "viewsCount", "status", "createdAt", "updatedAt"]
+    },
+    "PostLike": {
+      "title": "PostLike",
+      "description": "Unique reaction record per user per post or reel.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "reaction": { "type": "string", "enum": ["like", "love", "care", "haha", "wow", "sad", "angry"] },
+        "userName": { "type": "string", "maxLength": 60 },
+        "userPhotoURL": { "type": "string", "maxLength": 2048 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "createdAt"]
+    },
+    "PollVote": {
+      "title": "PollVote",
+      "description": "Single-vote record per user on a post poll.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "optionId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "optionId", "createdAt"]
+    },
+    "SavedPostItem": {
+      "title": "SavedPostItem",
+      "description": "User-saved post or marketplace bookmark.",
+      "type": "object",
+      "properties": {
+        "itemId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "itemType": { "type": "string", "enum": ["post", "marketplace"] },
+        "title": { "type": "string", "maxLength": 160 },
+        "subtitle": { "type": "string", "maxLength": 200 },
+        "authorName": { "type": "string", "maxLength": 80 },
+        "mediaURL": { "type": "string", "maxLength": 350000 },
+        "mediaPath": { "type": "string", "maxLength": 512 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["itemId", "itemType", "title", "subtitle", "authorName", "mediaURL", "createdAt"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "24-hour ephemeral photo, video, or text-card story.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "authorName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "authorUsername": { "type": "string", "minLength": 3, "maxLength": 30, "pattern": "^[a-z0-9_]+$" },
+        "authorPhotoURL": { "type": "string", "maxLength": 2048 },
+        "contextType": { "type": "string", "enum": ["personal", "page"] },
+        "contextId": { "type": "string", "maxLength": 128 },
+        "mediaType": { "type": "string", "enum": ["image", "video", "text"] },
+        "mediaURL": { "type": "string", "maxLength": 350000 },
+        "mediaPath": { "type": "string", "maxLength": 512 },
+        "text": { "type": "string", "maxLength": 300 },
+        "bgStyle": { "type": "string", "maxLength": 32 },
+        "visibility": { "type": "string", "enum": ["public", "friends"] },
+        "viewsCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "removed"] },
+        "expiresAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "authorUsername", "authorPhotoURL", "contextType", "contextId", "mediaType", "mediaURL", "text", "bgStyle", "visibility", "viewsCount", "status", "expiresAt", "createdAt"]
+    },
+    "StoryView": {
+      "title": "StoryView",
+      "description": "Unique viewer record on a story.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "photoURL", "createdAt"]
+    },
+    "MarketplaceListing": {
+      "title": "MarketplaceListing",
+      "description": "Local Marketplace buy and sell listing.",
+      "type": "object",
+      "properties": {
+        "sellerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "sellerName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "sellerUsername": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "sellerPhotoURL": { "type": "string", "maxLength": 2048 },
+        "title": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "priceCents": { "type": "integer" },
+        "currency": { "type": "string", "minLength": 3, "maxLength": 6 },
+        "category": { "type": "string", "enum": ["Electronics", "Vehicles", "Home & Garden", "Apparel", "Property Rentals", "Hobbies", "Services", "Free Stuff"] },
+        "condition": { "type": "string", "enum": ["New", "Used - Like New", "Used - Good", "Used - Fair"] },
+        "location": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 1200 },
+        "imageURL": { "type": "string", "maxLength": 350000 },
+        "status": { "type": "string", "enum": ["available", "pending", "sold", "removed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sellerId", "sellerName", "sellerUsername", "sellerPhotoURL", "title", "priceCents", "currency", "category", "condition", "location", "description", "imageURL", "status", "createdAt", "updatedAt"]
+    },
+    "SocialEvent": {
+      "title": "SocialEvent",
+      "description": "Community or Page hosted event with RSVP tracking.",
+      "type": "object",
+      "properties": {
+        "hostId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "hostName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "hostUsername": { "type": "string", "minLength": 3, "maxLength": 30, "pattern": "^[a-z0-9_]+$" },
+        "hostPhotoURL": { "type": "string", "maxLength": 2048 },
+        "contextType": { "type": "string", "enum": ["personal", "page"] },
+        "contextId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "minLength": 3, "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 1200 },
+        "category": { "type": "string", "enum": ["Social", "Music", "Tech & Business", "Sports", "Community", "Education"] },
+        "location": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "isOnline": { "type": "boolean" },
+        "eventDate": { "type": "string", "minLength": 4, "maxLength": 40 },
+        "coverURL": { "type": "string", "maxLength": 350000 },
+        "goingCount": { "type": "integer" },
+        "interestedCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["hostId", "hostName", "hostUsername", "hostPhotoURL", "contextType", "contextId", "title", "description", "category", "location", "isOnline", "eventDate", "coverURL", "goingCount", "interestedCount", "status", "createdAt", "updatedAt"]
+    },
+    "EventRsvp": {
+      "title": "EventRsvp",
+      "description": "User RSVP status (going or interested) for an event.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "status": { "type": "string", "enum": ["going", "interested"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "username", "photoURL", "status", "updatedAt"]
+    },
+    "PostComment": {
+      "title": "PostComment",
+      "description": "Comment or reply on a post or reel.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "authorName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "authorUsername": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "authorPhotoURL": { "type": "string", "maxLength": 2048 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 600 },
+        "parentCommentId": { "type": "string", "maxLength": 128 },
+        "replyToName": { "type": "string", "maxLength": 60 },
+        "likesCount": { "type": "integer" },
+        "editedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "authorUsername", "authorPhotoURL", "text", "createdAt"]
+    },
+    "PostShare": {
+      "title": "PostShare",
+      "description": "Share audit event on a post.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "createdAt"]
+    },
+    "FriendRequest": {
+      "title": "FriendRequest",
+      "description": "Peer-to-peer friend request between two users.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "receiverId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fromId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fromName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "fromUsername": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "fromPhotoURL": { "type": "string", "maxLength": 2048 },
+        "toId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "toName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "toUsername": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "toPhotoURL": { "type": "string", "maxLength": 2048 },
+        "participants": { "type": "array" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromId", "fromName", "fromUsername", "fromPhotoURL", "toId", "toName", "toUsername", "toPhotoURL", "participants", "status", "createdAt", "updatedAt"]
+    },
+    "Page": {
+      "title": "Page",
+      "description": "Creator or brand community page.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "handle": { "type": "string", "minLength": 3, "maxLength": 30, "pattern": "^[a-z0-9_]+$" },
+        "category": { "type": "string", "minLength": 2, "maxLength": 40 },
+        "description": { "type": "string", "maxLength": 500 },
+        "coverURL": { "type": "string", "maxLength": 2048 },
+        "avatarURL": { "type": "string", "maxLength": 2048 },
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "originalOwnerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "managerIds": { "type": "array" },
+        "managerProfiles": { "type": "object" },
+        "followersCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "handle", "category", "description", "coverURL", "avatarURL", "ownerId", "ownerName", "followersCount", "status", "createdAt", "updatedAt"]
+    },
+    "PageMember": {
+      "title": "PageMember",
+      "description": "Role-based access membership record scoped to a specific Page.",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "role": { "type": "string", "enum": ["owner", "admin", "editor", "moderator"] },
+        "canManageMembers": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["active"] },
+        "invitedBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "userId", "displayName", "username", "photoURL", "role", "canManageMembers", "status", "invitedBy", "createdAt", "updatedAt"]
+    },
+    "PageInvitation": {
+      "title": "PageInvitation",
+      "description": "Pending or resolved Page Access invitation sent to an ASN user.",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "pageName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "pageHandle": { "type": "string", "minLength": 3, "maxLength": 30, "pattern": "^[a-z0-9_]+$" },
+        "pageAvatarURL": { "type": "string", "maxLength": 2048 },
+        "pageOwnerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "inviteeId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "inviteeName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "inviteeUsername": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "inviteePhotoURL": { "type": "string", "maxLength": 2048 },
+        "invitedById": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "invitedByName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "role": { "type": "string", "enum": ["admin", "editor", "moderator"] },
+        "canManageMembers": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined", "revoked"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "pageName", "pageHandle", "pageAvatarURL", "pageOwnerId", "inviteeId", "inviteeName", "inviteeUsername", "inviteePhotoURL", "invitedById", "invitedByName", "role", "canManageMembers", "status", "createdAt", "updatedAt"]
+    },
+    "PageAuditLog": {
+      "title": "PageAuditLog",
+      "description": "Immutable Page Access audit entry recording role changes, invitations, and removals.",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "action": { "type": "string", "enum": ["invite_sent", "invite_accepted", "invite_declined", "invite_revoked", "role_changed", "member_removed"] },
+        "actorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "actorRole": { "type": "string", "enum": ["owner", "admin", "editor", "moderator", "invitee"] },
+        "targetUserId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "targetUserName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "previousRole": { "type": "string", "maxLength": 20 },
+        "newRole": { "type": "string", "maxLength": 20 },
+        "details": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "action", "actorId", "actorName", "actorRole", "targetUserId", "targetUserName", "previousRole", "newRole", "details", "createdAt"]
+    },
+    "PageNotification": {
+      "title": "PageNotification",
+      "description": "Notification scoped strictly to a specific Page workspace.",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "actorPhotoURL": { "type": "string", "maxLength": 2048 },
+        "type": { "type": "string", "enum": ["follow", "like", "comment", "report", "access_invite", "access_update", "post"] },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "actorId", "actorName", "actorPhotoURL", "type", "targetId", "message", "read", "createdAt"]
+    },
+    "PageReport": {
+      "title": "PageReport",
+      "description": "Content moderation report scoped to a specific Page for Page Moderators and Admins.",
+      "type": "object",
+      "properties": {
+        "pageId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "reporterId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "reporterName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "targetType": { "type": "string", "enum": ["post", "reel", "comment", "page"] },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "targetLabel": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "reason": { "type": "string", "minLength": 3, "maxLength": 80 },
+        "details": { "type": "string", "maxLength": 600 },
+        "status": { "type": "string", "enum": ["open", "resolved", "dismissed"] },
+        "moderatorAction": { "type": "string", "maxLength": 240 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["pageId", "reporterId", "reporterName", "targetType", "targetId", "targetLabel", "reason", "details", "status", "moderatorAction", "createdAt", "updatedAt"]
+    },
+    "Group": {
+      "title": "Group",
+      "description": "Community discussion group.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "category": { "type": "string", "minLength": 2, "maxLength": 40 },
+        "description": { "type": "string", "maxLength": 500 },
+        "privacy": { "type": "string", "enum": ["public", "private"] },
+        "coverURL": { "type": "string", "maxLength": 2048 },
+        "ownerId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "membersCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "category", "description", "privacy", "coverURL", "ownerId", "ownerName", "membersCount", "status", "createdAt", "updatedAt"]
+    },
+    "GroupMember": {
+      "title": "GroupMember",
+      "description": "Membership record for a group.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "role": { "type": "string", "enum": ["owner", "member"] },
+        "joinedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "username", "role", "joinedAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Private 1-to-1 or group messaging thread.",
+      "type": "object",
+      "properties": {
+        "participantIds": { "type": "array" },
+        "participantProfiles": { "type": "object" },
+        "isGroup": { "type": "boolean" },
+        "groupName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "adminId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "lastMessage": { "type": "string", "maxLength": 1000 },
+        "lastSenderId": { "type": "string", "maxLength": 128 },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantIds", "participantProfiles", "lastMessage", "lastSenderId", "lastMessageAt", "createdAt", "updatedAt"]
+    },
+    "DirectMessage": {
+      "title": "DirectMessage",
+      "description": "Individual message inside a conversation.",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "text": { "type": "string", "maxLength": 1000 },
+        "mediaURL": { "type": "string", "maxLength": 350000 },
+        "mediaType": { "type": "string", "enum": ["image"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "Activity notification targeted to a single user.",
+      "type": "object",
+      "properties": {
+        "recipientId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "actorPhotoURL": { "type": "string", "maxLength": 2048 },
+        "type": { "type": "string", "enum": ["like", "comment", "follow", "friend_request", "friend_accept", "message", "monetization", "page_invite", "system"] },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientId", "actorId", "actorName", "actorPhotoURL", "type", "targetId", "message", "read", "createdAt"]
+    },
+    "MonetizationApplication": {
+      "title": "MonetizationApplication",
+      "description": "Creator monetization eligibility application reviewed by admins.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "followersSnapshot": { "type": "integer" },
+        "postsSnapshot": { "type": "integer" },
+        "pitch": { "type": "string", "minLength": 10, "maxLength": 800 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "adminNote": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "username", "followersSnapshot", "postsSnapshot", "pitch", "status", "adminNote", "createdAt", "updatedAt"]
+    },
+    "PayoutRequest": {
+      "title": "PayoutRequest",
+      "description": "Withdrawal request against admin-verified creator earnings.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "amountCents": { "type": "integer" },
+        "payoutDestination": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "status": { "type": "string", "enum": ["pending", "approved", "paid", "rejected"] },
+        "adminNote": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "amountCents", "payoutDestination", "status", "adminNote", "createdAt", "updatedAt"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "Abuse or policy violation report submitted for admin review.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "reporterName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "targetType": { "type": "string", "enum": ["post", "reel", "user", "page", "group"] },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "targetLabel": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "reason": { "type": "string", "minLength": 3, "maxLength": 80 },
+        "details": { "type": "string", "maxLength": 600 },
+        "status": { "type": "string", "enum": ["open", "resolved", "dismissed"] },
+        "adminAction": { "type": "string", "maxLength": 240 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "reporterName", "targetType", "targetId", "targetLabel", "reason", "details", "status", "adminAction", "createdAt", "updatedAt"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Server-validated admin grant document.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "minLength": 3, "maxLength": 254 },
+        "grantedBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "grantedBy", "createdAt"]
+    },
+    "PlatformConfig": {
+      "title": "PlatformConfig",
+      "description": "Global platform configuration including monetization rules and maintenance mode.",
+      "type": "object",
+      "properties": {
+        "maintenanceMode": { "type": "boolean" },
+        "maintenanceMessage": { "type": "string", "maxLength": 400 },
+        "minFollowersForMonetization": { "type": "integer" },
+        "minPostsForMonetization": { "type": "integer" },
+        "revenueRuleSummary": { "type": "string", "maxLength": 600 },
+        "videoEngagementEnabled": { "type": "boolean" },
+        "maxVideoLikesLimit": { "type": "integer" },
+        "maxVideoCommentsLimit": { "type": "integer" },
+        "maxVideoSharesLimit": { "type": "integer" },
+        "maxVideoViewsLimit": { "type": "integer" },
+        "updatedBy": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["maintenanceMode", "maintenanceMessage", "minFollowersForMonetization", "minPostsForMonetization", "revenueRuleSummary", "updatedBy", "updatedAt"]
+    },
+    "RestrictedUser": {
+      "title": "RestrictedUser",
+      "description": "Restricted user record isolated inside the user's private subcollection.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24, "pattern": "^[a-z0-9_]+$" },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "reason": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "username", "photoURL", "createdAt"]
+    },
+    "UserActivityLog": {
+      "title": "UserActivityLog",
+      "description": "User-visible activity history log stored under users_public/{userId}/activity_logs.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actionType": { "type": "string", "enum": ["post_created", "post_scheduled", "post_liked", "post_commented", "post_shared", "reel_created", "profile_updated", "user_blocked", "user_restricted", "boost_requested"] },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "actionType", "targetId", "summary", "createdAt"]
+    },
+    "AdCampaign": {
+      "title": "AdCampaign",
+      "description": "Admin-managed advertisement campaign with budget, placement, and genuine tracking counters.",
+      "type": "object",
+      "properties": {
+        "advertiserId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "advertiserName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "title": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
+        "mediaType": { "type": "string", "enum": ["image", "video"] },
+        "mediaURL": { "type": "string", "minLength": 1, "maxLength": 350000 },
+        "mediaPath": { "type": "string", "maxLength": 512 },
+        "thumbnailURL": { "type": "string", "maxLength": 350000 },
+        "thumbnailPath": { "type": "string", "maxLength": 512 },
+        "destinationURL": { "type": "string", "minLength": 4, "maxLength": 2048 },
+        "ctaLabel": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "placement": { "type": "string", "enum": ["feed", "watch", "reels", "sidebar"] },
+        "targetAudience": { "type": "string", "maxLength": 200 },
+        "budgetCents": { "type": "integer" },
+        "dailyLimitCents": { "type": "integer" },
+        "spentCents": { "type": "integer" },
+        "startDate": { "type": "string", "maxLength": 40 },
+        "endDate": { "type": "string", "maxLength": 40 },
+        "impressionsCount": { "type": "integer" },
+        "clicksCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "paused", "stopped"] },
+        "createdBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["advertiserId", "advertiserName", "title", "description", "mediaType", "mediaURL", "destinationURL", "ctaLabel", "placement", "targetAudience", "budgetCents", "dailyLimitCents", "spentCents", "startDate", "endDate", "impressionsCount", "clicksCount", "status", "createdBy", "createdAt", "updatedAt"]
+    },
+    "AdEvent": {
+      "title": "AdEvent",
+      "description": "Genuine user ad impression or click tracking event.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "eventType": { "type": "string", "enum": ["impression", "click"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "eventType", "createdAt"]
+    },
+    "AdvertiserAccount": {
+      "title": "AdvertiserAccount",
+      "description": "Admin-managed advertiser billing and campaign summary record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "username": { "type": "string", "minLength": 3, "maxLength": 24 },
+        "companyName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "contactEmail": { "type": "string", "maxLength": 254 },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "totalBudgetCents": { "type": "integer" },
+        "totalSpentCents": { "type": "integer" },
+        "campaignsCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "username", "companyName", "contactEmail", "status", "totalBudgetCents", "totalSpentCents", "campaignsCount", "createdAt", "updatedAt"]
+    },
+    "BoostRequest": {
+      "title": "BoostRequest",
+      "description": "User or Page post/reel boost request reviewed by admins.",
+      "type": "object",
+      "properties": {
+        "requesterId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "requesterName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "requesterUsername": { "type": "string", "minLength": 3, "maxLength": 24 },
+        "targetType": { "type": "string", "enum": ["post", "reel"] },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "mediaType": { "type": "string", "enum": ["none", "image", "video"] },
+        "contentPreview": { "type": "string", "maxLength": 240 },
+        "mediaURL": { "type": "string", "maxLength": 350000 },
+        "mediaPath": { "type": "string", "maxLength": 512 },
+        "contextType": { "type": "string", "enum": ["personal", "page"] },
+        "contextId": { "type": "string", "maxLength": 128 },
+        "targetAudience": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "durationDays": { "type": "integer" },
+        "budgetCents": { "type": "integer" },
+        "impressionsCount": { "type": "integer" },
+        "clicksCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "paused", "cancelled"] },
+        "adminNote": { "type": "string", "maxLength": 400 },
+        "reviewedBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["requesterId", "requesterName", "requesterUsername", "targetType", "targetId", "mediaType", "contentPreview", "mediaURL", "contextType", "contextId", "targetAudience", "durationDays", "budgetCents", "impressionsCount", "clicksCount", "status", "adminNote", "createdAt", "updatedAt"]
+    },
+    "AdminAuditLog": {
+      "title": "AdminAuditLog",
+      "description": "Immutable platform-wide audit trail for all administrative moderation, engagement, ads, and configuration actions.",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "adminName": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "adminEmail": { "type": "string", "maxLength": 254 },
+        "action": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "targetType": { "type": "string", "enum": ["user", "post", "reel", "page", "group", "report", "monetization", "payout", "ad", "advertiser", "boost", "config", "admin"] },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "targetLabel": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "details": { "type": "string", "minLength": 1, "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminId", "adminName", "adminEmail", "action", "targetType", "targetId", "targetLabel", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users_public/{userId}": {
+      "schema": { "$ref": "#/entities/UserPublic" },
+      "description": "Public user profiles."
+    },
+    "/users_public/{userId}/followers/{followerId}": {
+      "schema": { "$ref": "#/entities/FollowEdge" },
+      "description": "Followers subcollection."
+    },
+    "/users_public/{userId}/following/{targetId}": {
+      "schema": { "$ref": "#/entities/FollowEdge" },
+      "description": "Following subcollection for personal profiles."
+    },
+    "/users_public/{userId}/following_pages/{pageId}": {
+      "schema": { "$ref": "#/entities/PageFollowEdge" },
+      "description": "Following subcollection for public pages."
+    },
+    "/users_public/{userId}/friends/{friendId}": {
+      "schema": { "$ref": "#/entities/FollowEdge" },
+      "description": "Mutual friendship edges for Friends list, count, and mutual-friend calculation."
+    },
+    "/users_public/{userId}/page_invites/{pageId}": {
+      "schema": { "$ref": "#/entities/PageInvitation" },
+      "description": "Invitee inbox mirroring pending/resolved Page Access invitations."
+    },
+    "/users_public/{userId}/saved_posts/{itemId}": {
+      "schema": { "$ref": "#/entities/SavedPostItem" },
+      "description": "User-bookmarked posts and marketplace listings."
+    },
+    "/users_private/{userId}": {
+      "schema": { "$ref": "#/entities/UserPrivate" },
+      "description": "Isolated private user PII and verified earnings."
+    },
+    "/users_private/{userId}/blocked/{blockedUid}": {
+      "schema": { "$ref": "#/entities/BlockedUser" },
+      "description": "User's private block list."
+    },
+    "/posts/{postId}": {
+      "schema": { "$ref": "#/entities/Post" },
+      "description": "Social posts across feed, pages, and groups."
+    },
+    "/posts/{postId}/likes/{userId}": {
+      "schema": { "$ref": "#/entities/PostLike" },
+      "description": "Reactions subcollection on posts."
+    },
+    "/posts/{postId}/poll_votes/{userId}": {
+      "schema": { "$ref": "#/entities/PollVote" },
+      "description": "Single poll vote per user per post."
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/PostComment" },
+      "description": "Comments subcollection on posts."
+    },
+    "/posts/{postId}/comments/{commentId}/likes/{userId}": {
+      "schema": { "$ref": "#/entities/PostLike" },
+      "description": "Unique like records per user per post comment."
+    },
+    "/posts/{postId}/shares/{shareId}": {
+      "schema": { "$ref": "#/entities/PostShare" },
+      "description": "Shares subcollection on posts."
+    },
+    "/stories/{storyId}": {
+      "schema": { "$ref": "#/entities/Story" },
+      "description": "24-hour ephemeral user and page stories."
+    },
+    "/stories/{storyId}/views/{userId}": {
+      "schema": { "$ref": "#/entities/StoryView" },
+      "description": "Unique viewers of a story."
+    },
+    "/marketplace/{listingId}": {
+      "schema": { "$ref": "#/entities/MarketplaceListing" },
+      "description": "Marketplace buy and sell listings."
+    },
+    "/events/{eventId}": {
+      "schema": { "$ref": "#/entities/SocialEvent" },
+      "description": "Social and page events."
+    },
+    "/events/{eventId}/rsvps/{userId}": {
+      "schema": { "$ref": "#/entities/EventRsvp" },
+      "description": "Event Going/Interested RSVPs."
+    },
+    "/reels/{reelId}": {
+      "schema": { "$ref": "#/entities/Reel" },
+      "description": "Short-form vertical video reels."
+    },
+    "/reels/{reelId}/likes/{userId}": {
+      "schema": { "$ref": "#/entities/PostLike" },
+      "description": "Likes subcollection on reels."
+    },
+    "/reels/{reelId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/PostComment" },
+      "description": "Comments subcollection on reels."
+    },
+    "/friend_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/FriendRequest" },
+      "description": "Friend requests between users."
+    },
+    "/pages/{pageId}": {
+      "schema": { "$ref": "#/entities/Page" },
+      "description": "Community pages."
+    },
+    "/pages/{pageId}/followers/{userId}": {
+      "schema": { "$ref": "#/entities/FollowEdge" },
+      "description": "Page followers."
+    },
+    "/pages/{pageId}/members/{userId}": {
+      "schema": { "$ref": "#/entities/PageMember" },
+      "description": "Role-based access memberships scoped to this page."
+    },
+    "/pages/{pageId}/invitations/{inviteeId}": {
+      "schema": { "$ref": "#/entities/PageInvitation" },
+      "description": "Page Access invitations scoped to this page."
+    },
+    "/pages/{pageId}/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/PageAuditLog" },
+      "description": "Immutable Page Access audit log entries."
+    },
+    "/pages/{pageId}/notifications/{notifId}": {
+      "schema": { "$ref": "#/entities/PageNotification" },
+      "description": "Page-scoped notifications feed."
+    },
+    "/pages/{pageId}/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/PageReport" },
+      "description": "Page-scoped moderation reports."
+    },
+    "/groups/{groupId}": {
+      "schema": { "$ref": "#/entities/Group" },
+      "description": "Community groups."
+    },
+    "/groups/{groupId}/members/{userId}": {
+      "schema": { "$ref": "#/entities/GroupMember" },
+      "description": "Group membership records."
+    },
+    "/conversations/{conversationId}": {
+      "schema": { "$ref": "#/entities/Conversation" },
+      "description": "Private 1-to-1 and group conversation headers."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/DirectMessage" },
+      "description": "Private messages inside a conversation."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "User activity notifications."
+    },
+    "/monetization_applications/{userId}": {
+      "schema": { "$ref": "#/entities/MonetizationApplication" },
+      "description": "Creator monetization applications."
+    },
+    "/payout_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/PayoutRequest" },
+      "description": "Creator payout withdrawal requests."
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/Report" },
+      "description": "Content and user moderation reports."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Server-validated admin registry."
+    },
+    "/users_public/{userId}/activity_logs/{activityId}": {
+      "schema": { "$ref": "#/entities/UserActivityLog" },
+      "description": "Owner-scoped profile activity history."
+    },
+    "/users_private/{userId}/restricted/{targetUid}": {
+      "schema": { "$ref": "#/entities/RestrictedUser" },
+      "description": "User's private restrict list."
+    },
+    "/ads/{adId}": {
+      "schema": { "$ref": "#/entities/AdCampaign" },
+      "description": "Admin-managed advertisement campaigns."
+    },
+    "/ads/{adId}/events/{eventId}": {
+      "schema": { "$ref": "#/entities/AdEvent" },
+      "description": "Genuine ad impression and click events."
+    },
+    "/advertiser_accounts/{uid}": {
+      "schema": { "$ref": "#/entities/AdvertiserAccount" },
+      "description": "Advertiser accounts managed by admins."
+    },
+    "/boost_requests/{boostId}": {
+      "schema": { "$ref": "#/entities/BoostRequest" },
+      "description": "Post and reel boost requests."
+    },
+    "/admin_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AdminAuditLog" },
+      "description": "Immutable admin audit log records."
+    },
+    "/platform_config/{configId}": {
+      "schema": { "$ref": "#/entities/PlatformConfig" },
+      "description": "Global maintenance mode and monetization policy config."
+    }
+  }
+}
